@@ -343,21 +343,31 @@ describe("the JavaScript language", function() {
       obj.addPoint();
 
       expect(obj.score()).toEqual(1);
-      console.log(obj.points);
-      expect(typeof obj.points).toEqual("undefined");
+
+      expect(typeof obj.points).toEqual("undefined"); // No entendemos por que es undefined
     });
 
     it("may create objects also with the module pattern", function() {
-      function createObject(initialScore) {
+      function createObject(initialScore, color) {
+        let score = initialScore;
+
+        return {
+          color: color,
+
+          incrementScoreIn: function(inc) {
+            score += inc;
+          },
+          points: function() {
+            return score;
+          }
+        };
         // write the code here
       }
 
-      /*
-      let obj = createObject(5, 'red');
+      let obj = createObject(5, "red");
       obj.incrementScoreIn(5);
-      expect(obj.color).toEqual('red');
+      expect(obj.color).toEqual("red");
       expect(obj.points()).toEqual(10);
-      */
     });
 
     it("can define constructors", function() {
@@ -370,7 +380,7 @@ describe("the JavaScript language", function() {
       }
 
       let obj = new Obj();
-      //expect(obj.theName()).toBe();
+      expect(obj.theName()).toBe("bob");
     });
 
     it("may contain 'static' methods", function() {
@@ -386,7 +396,7 @@ describe("the JavaScript language", function() {
         return 22;
       };
 
-      //expect(Obj.someStaticMethod()).toBe();
+      expect(Obj.someStaticMethod()).toBe(22);
     });
 
     it("can define a factory", function() {
@@ -402,8 +412,8 @@ describe("the JavaScript language", function() {
       }
 
       let instance = obj();
-      //expect(instance.theName()).toBe();
-      //expect(instance.theName).not.toBe(obj().theName);
+      expect(instance.theName()).toBe("bob");
+      expect(instance.theName).not.toBe(obj().theName);
     });
 
     it("can create methods dynamically on an object instance", function() {
@@ -416,7 +426,7 @@ describe("the JavaScript language", function() {
         };
       }
 
-      //expect(obj.meow()).toEqual();
+      expect(obj.meow()).toEqual("it works");
     });
   });
 });
